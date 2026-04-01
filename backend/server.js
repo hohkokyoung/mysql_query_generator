@@ -34,11 +34,13 @@ app.post('/db/test', async (req, res) => {
   try {
     conn = await mysql.createConnection({ host, port: port || 3306, user, password, database });
     await conn.query('SELECT 1');
-    res.json({ ok: true });
+    const [rows] = await conn.query("SHOW DATABASES WHERE `Database` NOT IN ('information_schema','performance_schema','mysql','sys')");
+    const databases = rows.map(r => Object.values(r)[0]);
+    res.json({ ok: true, databases });
   } catch (err) {
     res.status(400).json({ error: err.message });
   } finally {
-    if (conn) await conn.end().catch(() => {});
+    if (conn) await conn.end().catch(() => { });
   }
 });
 
@@ -67,10 +69,10 @@ app.post('/db/dryrun', async (req, res) => {
 
     res.json({ ok: true, rowCount: data.length, columns, rows: data });
   } catch (err) {
-    if (conn) await conn.rollback().catch(() => {});
+    if (conn) await conn.rollback().catch(() => { });
     res.status(400).json({ error: err.message });
   } finally {
-    if (conn) await conn.end().catch(() => {});
+    if (conn) await conn.end().catch(() => { });
   }
 });
 
@@ -119,5 +121,36 @@ app.get('/llm/models', async (req, res) => {
   }
 });
 
+// ─── Read schema from DB ───────────────────────────────────────────────────
+app.post('/schema/db', async (req, res) => {
+  const { host, port, user, password, database } = req.body;
+  if (!database) return res.status(400).json({ error: 'database name required' });
+
+  let conn;
+  try {
+    conn = await mysql.createConnection({ host, port: port || 3306, user, password, database });
+
+    const [tables] = await conn.query(
+      `SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = ? ORDER BY TABLE_NAME`,
+      [database]
+    );
+
+    let schema = '';
+    for (const { TABLE_NAME } of tables) {
+      const [[{ 'Create Table': ddl }]] = await conn.query(`SHOW CREATE TABLE \`${TABLE_NAME}\``);
+      schema += ddl + ';\n\n';
+    }
+
+    res.json({
+      schema,
+      tables: tables.map(t => t.TABLE_NAME),
+      tableCount: tables.length
+    });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  } finally {
+    if (conn) await conn.end().catch(() => { });
+  }
+});
 const PORT = 3333;
 app.listen(PORT, () => console.log(`nl-sql-agent backend running on http://localhost:${PORT}`));

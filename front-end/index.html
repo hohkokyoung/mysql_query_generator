@@ -21,7 +21,6 @@
     --blue: #60a5fa;
     --cyan: #22d3ee;
     --mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
-    --sans: 'Inter', system-ui, sans-serif;
   }
 
   body {
@@ -35,7 +34,6 @@
     overflow: hidden;
   }
 
-  /* ── Title bar ── */
   .titlebar {
     display: flex; align-items: center; gap: 10px;
     padding: 9px 16px;
@@ -49,45 +47,15 @@
   .dot-y { background: #febc2e; }
   .dot-g { background: #28c840; }
   .title { font-size: 12px; color: var(--muted); margin-left: 8px; letter-spacing: 0.04em; }
-  .badge {
-    margin-left: auto;
-    font-size: 10px;
-    padding: 2px 8px;
-    border-radius: 999px;
-    border: 0.5px solid var(--border2);
-    color: var(--muted);
-    letter-spacing: 0.05em;
-  }
+  .badge { margin-left: auto; font-size: 10px; padding: 2px 8px; border-radius: 999px; border: 0.5px solid var(--border2); color: var(--muted); letter-spacing: 0.05em; }
   .badge.live { border-color: var(--green); color: var(--green); }
 
-  /* ── Layout ── */
-  .main {
-    flex: 1;
-    display: grid;
-    grid-template-columns: 300px 1fr;
-    overflow: hidden;
-  }
+  .main { flex: 1; display: grid; grid-template-columns: 300px 1fr; overflow: hidden; }
 
-  /* ── Sidebar ── */
-  .sidebar {
-    background: var(--bg2);
-    border-right: 0.5px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-  }
+  .sidebar { background: var(--bg2); border-right: 0.5px solid var(--border); display: flex; flex-direction: column; overflow-y: auto; }
 
-  .section {
-    border-bottom: 0.5px solid var(--border);
-    padding: 12px 14px;
-  }
-  .section-label {
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
+  .section { border-bottom: 0.5px solid var(--border); padding: 12px 14px; }
+  .section-label { font-size: 10px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
 
   label { font-size: 11px; color: var(--muted); display: block; margin-bottom: 3px; margin-top: 8px; }
   label:first-of-type { margin-top: 0; }
@@ -108,8 +76,7 @@
   select option { background: var(--bg3); }
 
   .btn {
-    width: 100%;
-    margin-top: 10px;
+    width: 100%; margin-top: 10px;
     padding: 7px 12px;
     background: transparent;
     border: 0.5px solid var(--border2);
@@ -118,183 +85,126 @@
     font-family: var(--mono);
     font-size: 12px;
     cursor: pointer;
-    transition: background 0.15s, border-color 0.15s;
+    transition: background 0.15s;
     text-align: center;
   }
-  .btn:hover { background: var(--bg3); border-color: rgba(255,255,255,0.22); }
+  .btn:hover { background: var(--bg3); }
   .btn:disabled { opacity: 0.35; cursor: not-allowed; }
-  .btn.primary { border-color: var(--cyan); color: var(--cyan); }
-  .btn.primary:hover { background: rgba(34,211,238,0.08); }
+  .btn.cyan { border-color: var(--cyan); color: var(--cyan); }
+  .btn.cyan:hover { background: rgba(34,211,238,0.08); }
 
-  .schema-preview {
-    font-size: 11px;
-    color: var(--muted);
-    background: var(--bg3);
+  /* schema source toggle */
+  .toggle-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .toggle-btn {
+    padding: 5px 0;
+    background: transparent;
     border: 0.5px solid var(--border);
     border-radius: 5px;
-    padding: 8px 10px;
-    max-height: 160px;
-    overflow-y: auto;
-    white-space: pre-wrap;
-    word-break: break-all;
-    line-height: 1.5;
-    margin-top: 8px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+  }
+  .toggle-btn.active { border-color: var(--cyan); color: var(--cyan); background: rgba(34,211,238,0.07); }
+
+  .schema-source { display: none; }
+  .schema-source.visible { display: block; }
+
+  .schema-preview {
+    font-size: 11px; color: var(--muted);
+    background: var(--bg3); border: 0.5px solid var(--border);
+    border-radius: 5px; padding: 8px 10px;
+    max-height: 120px; overflow-y: auto;
+    white-space: pre-wrap; word-break: break-all;
+    line-height: 1.5; margin-top: 8px;
   }
   .schema-preview.empty { font-style: italic; }
 
-  /* ── Agent panel ── */
-  .agent-panel {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  .log-area {
-    flex: 1;
-    overflow-y: auto;
-    padding: 14px 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .log-entry {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .log-tag {
-    font-size: 10px;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
+  /* table pills */
+  .table-pills { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+  .table-pill {
+    font-size: 10px; padding: 2px 7px;
+    border: 0.5px solid var(--border); border-radius: 999px;
     color: var(--muted);
   }
 
-  .log-body {
-    font-size: 12px;
-    line-height: 1.65;
-    white-space: pre-wrap;
-    word-break: break-word;
+  .agent-panel { display: flex; flex-direction: column; overflow: hidden; }
+
+  .log-area {
+    flex: 1; overflow-y: auto;
+    padding: 14px 18px;
+    display: flex; flex-direction: column; gap: 8px;
   }
+
+  .log-entry { display: flex; flex-direction: column; gap: 2px; }
+  .log-tag { font-size: 10px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+  .log-body { font-size: 12px; line-height: 1.65; white-space: pre-wrap; word-break: break-word; }
 
   .entry-user .log-tag { color: var(--blue); }
   .entry-user .log-body { color: var(--blue); }
-
   .entry-sql .log-body {
-    background: var(--bg2);
-    border: 0.5px solid var(--border);
-    border-left: 2px solid var(--cyan);
-    border-radius: 5px;
-    padding: 8px 12px;
-    color: var(--cyan);
-    font-family: var(--mono);
+    background: var(--bg2); border: 0.5px solid var(--border);
+    border-left: 2px solid var(--cyan); border-radius: 5px;
+    padding: 8px 12px; color: var(--cyan); font-family: var(--mono);
   }
-
   .entry-ok .log-tag { color: var(--green); }
   .entry-ok .log-body { color: var(--green); }
-
   .entry-err .log-tag { color: var(--red); }
   .entry-err .log-body { color: var(--red); }
-
   .entry-retry .log-tag { color: var(--yellow); }
   .entry-retry .log-body { color: var(--yellow); }
-
   .entry-info .log-body { color: var(--muted); }
-
   .entry-result .log-body {
-    background: var(--bg2);
-    border: 0.5px solid var(--border);
-    border-radius: 5px;
-    padding: 8px 12px;
-    overflow-x: auto;
+    background: var(--bg2); border: 0.5px solid var(--border);
+    border-radius: 5px; padding: 8px 12px; overflow-x: auto;
   }
 
-  /* ── Result table ── */
-  .result-table {
-    border-collapse: collapse;
-    font-size: 11px;
-    width: 100%;
-    min-width: max-content;
-  }
-  .result-table th {
-    text-align: left;
-    padding: 4px 12px 4px 0;
-    color: var(--muted);
-    border-bottom: 0.5px solid var(--border);
-    white-space: nowrap;
-    font-weight: 500;
-  }
-  .result-table td {
-    padding: 4px 12px 4px 0;
-    border-bottom: 0.5px solid var(--border);
-    color: var(--text);
-    white-space: nowrap;
-  }
+  .result-table { border-collapse: collapse; font-size: 11px; width: 100%; min-width: max-content; }
+  .result-table th { text-align: left; padding: 4px 12px 4px 0; color: var(--muted); border-bottom: 0.5px solid var(--border); white-space: nowrap; font-weight: 500; }
+  .result-table td { padding: 4px 12px 4px 0; border-bottom: 0.5px solid var(--border); color: var(--text); white-space: nowrap; }
   .result-table tr:last-child td { border-bottom: none; }
 
-  /* ── Input row ── */
   .input-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    display: flex; align-items: center; gap: 10px;
     padding: 10px 18px;
     border-top: 0.5px solid var(--border);
-    background: var(--bg2);
-    flex-shrink: 0;
+    background: var(--bg2); flex-shrink: 0;
   }
   .prompt-sym { color: var(--cyan); font-size: 14px; flex-shrink: 0; }
   .nl-input {
-    flex: 1;
-    background: transparent;
-    border: none;
-    outline: none;
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--text);
+    flex: 1; background: transparent; border: none; outline: none;
+    font-family: var(--mono); font-size: 13px; color: var(--text);
   }
   .nl-input::placeholder { color: var(--muted); }
   .run-btn {
-    padding: 6px 14px;
-    background: transparent;
-    border: 0.5px solid var(--cyan);
-    border-radius: 5px;
-    color: var(--cyan);
-    font-family: var(--mono);
-    font-size: 12px;
-    cursor: pointer;
-    transition: background 0.15s;
-    flex-shrink: 0;
+    padding: 6px 14px; background: transparent;
+    border: 0.5px solid var(--cyan); border-radius: 5px;
+    color: var(--cyan); font-family: var(--mono); font-size: 12px;
+    cursor: pointer; transition: background 0.15s; flex-shrink: 0;
   }
   .run-btn:hover { background: rgba(34,211,238,0.1); }
   .run-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
-  /* ── Status bar ── */
   .statusbar {
     display: flex; align-items: center; gap: 8px;
-    padding: 4px 18px;
-    border-top: 0.5px solid var(--border);
-    background: var(--bg);
-    flex-shrink: 0;
+    padding: 4px 18px; border-top: 0.5px solid var(--border);
+    background: var(--bg); flex-shrink: 0;
   }
-  .status-dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--muted);
-    transition: background 0.2s;
-  }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); transition: background 0.2s; }
   .status-dot.active { background: var(--green); }
-  .status-dot.error { background: var(--red); }
-  .status-dot.warn { background: var(--yellow); }
+  .status-dot.error  { background: var(--red); }
+  .status-dot.warn   { background: var(--yellow); }
   .status-text { font-size: 11px; color: var(--muted); }
 
-  /* ── Divider in log ── */
-  .log-divider {
-    height: 0.5px;
-    background: var(--border);
-    margin: 4px 0;
-  }
+  .log-divider { height: 0.5px; background: var(--border); margin: 4px 0; }
 
-  /* scrollbar */
   ::-webkit-scrollbar { width: 4px; height: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
@@ -314,25 +224,43 @@
 
 <div class="main">
 
-  <!-- ── Sidebar ── -->
   <div class="sidebar">
 
+    <!-- ── Schema section ── -->
     <div class="section">
       <div class="section-label">schema</div>
-      <label>file path</label>
-      <input id="schemaPath" placeholder="/path/to/schema.sql" />
-      <button class="btn" onclick="loadSchema()">load schema</button>
+
+      <div class="toggle-row">
+        <button class="toggle-btn active" id="btnSrcDb"   onclick="setSchemaSource('db')">from connection</button>
+        <button class="toggle-btn"        id="btnSrcFile" onclick="setSchemaSource('file')">from file</button>
+      </div>
+
+      <!-- db source -->
+      <div class="schema-source visible" id="srcDb">
+        <label>database name</label>
+        <input id="dbNameInput" list="dbNameList" placeholder="type or connect to pick" />
+        <datalist id="dbNameList"></datalist>
+        <button class="btn cyan" onclick="loadSchemaFromDB()">read schema from db</button>
+      </div>
+
+      <!-- file source -->
+      <div class="schema-source" id="srcFile">
+        <label>file path</label>
+        <input id="schemaPath" placeholder="C:\path\to\schema.sql" />
+        <button class="btn" onclick="loadSchemaFromFile()">load schema file</button>
+      </div>
+
       <div class="schema-preview empty" id="schemaPreview">no schema loaded</div>
+      <div class="table-pills" id="tablePills"></div>
     </div>
 
+    <!-- ── MySQL connection ── -->
     <div class="section">
       <div class="section-label">mysql connection</div>
       <label>host</label>
       <input id="dbHost" value="127.0.0.1" />
       <label>port</label>
       <input id="dbPort" value="3306" />
-      <label>database</label>
-      <input id="dbName" placeholder="mydb" />
       <label>user</label>
       <input id="dbUser" value="root" />
       <label>password</label>
@@ -340,10 +268,11 @@
       <button class="btn" onclick="testDB()">test connection</button>
     </div>
 
+    <!-- ── Ollama ── -->
     <div class="section">
       <div class="section-label">ollama</div>
       <label>url</label>
-      <input id="ollamaUrl" value="http://localhost:11434" />
+      <input id="ollamaUrl" value="http://127.0.0.1:11434" />
       <label>model</label>
       <select id="ollamaModel">
         <option value="qwen2.5-coder:14b">qwen2.5-coder:14b</option>
@@ -355,6 +284,7 @@
       <button class="btn" onclick="loadModels()">refresh models</button>
     </div>
 
+    <!-- ── Agent settings ── -->
     <div class="section">
       <div class="section-label">agent</div>
       <label>max retries</label>
@@ -371,13 +301,13 @@
   <div class="agent-panel">
     <div class="log-area" id="logArea">
       <div class="log-entry entry-info">
-        <div class="log-body">ready. load your schema, configure mysql + ollama, then describe what you want.</div>
+        <div class="log-body">ready. test your mysql connection, then click "read schema from db" to auto-load your schema.</div>
       </div>
     </div>
 
     <div class="input-row">
       <span class="prompt-sym">›</span>
-      <input class="nl-input" id="nlInput" placeholder="show me all users who placed orders over $100 last month" />
+      <input class="nl-input" id="nlInput" placeholder="show me all customers who spent over $1000" />
       <button class="run-btn" id="runBtn" onclick="runAgent()">run</button>
     </div>
 
@@ -393,6 +323,7 @@
 const BACKEND = 'http://localhost:3333';
 let schema = '';
 let conversationHistory = [];
+let schemaSource = 'db';
 
 // ── Utilities ──────────────────────────────────────────────────────────────
 
@@ -427,50 +358,85 @@ function escHtml(s) {
 
 function setStatus(text, state = '') {
   document.getElementById('statusText').textContent = text;
-  const dot = document.getElementById('statusDot');
-  dot.className = 'status-dot' + (state ? ' ' + state : '');
+  document.getElementById('statusDot').className = 'status-dot' + (state ? ' ' + state : '');
 }
 
 async function api(path, body) {
   const res = await fetch(BACKEND + path, {
-    method: body ? 'POST' : 'GET',
-    headers: body ? { 'Content-Type': 'application/json' } : {},
-    body: body ? JSON.stringify(body) : undefined
+    method: body !== undefined ? 'POST' : 'GET',
+    headers: body !== undefined ? { 'Content-Type': 'application/json' } : {},
+    body: body !== undefined ? JSON.stringify(body) : undefined
   });
   return res.json();
 }
 
-// ── Backend health check ───────────────────────────────────────────────────
+function dbConfig() {
+  return {
+    host:     document.getElementById('dbHost').value,
+    port:     document.getElementById('dbPort').value,
+    user:     document.getElementById('dbUser').value,
+    password: document.getElementById('dbPass').value,
+    database: document.getElementById('dbNameInput').value.trim()
+  };
+}
 
-async function checkBackend() {
-  try {
-    const res = await fetch(BACKEND + '/llm/models');
-    if (res.ok) {
-      document.getElementById('backendBadge').textContent = 'backend: connected';
-      document.getElementById('backendBadge').classList.add('live');
-    }
-  } catch {
-    document.getElementById('backendBadge').textContent = 'backend: offline — run npm start';
+// ── Schema source toggle ───────────────────────────────────────────────────
+
+function setSchemaSource(src) {
+  schemaSource = src;
+  document.getElementById('btnSrcDb').classList.toggle('active', src === 'db');
+  document.getElementById('btnSrcFile').classList.toggle('active', src === 'file');
+  document.getElementById('srcDb').classList.toggle('visible', src === 'db');
+  document.getElementById('srcFile').classList.toggle('visible', src === 'file');
+}
+
+function applySchema(data) {
+  schema = data.schema;
+  const preview = document.getElementById('schemaPreview');
+  preview.textContent = schema.slice(0, 600) + (schema.length > 600 ? '\n...' : '');
+  preview.classList.remove('empty');
+
+  const pills = document.getElementById('tablePills');
+  if (data.tables && data.tables.length) {
+    pills.innerHTML = data.tables.map(t => `<span class="table-pill">${t}</span>`).join('');
+  } else {
+    pills.innerHTML = '';
   }
 }
 
-// ── Schema ─────────────────────────────────────────────────────────────────
+// ── Load schema from DB ────────────────────────────────────────────────────
 
-async function loadSchema() {
+async function loadSchemaFromDB() {
+  const db = document.getElementById('dbNameInput').value.trim();
+  if (!db) { log('schema', 'enter a database name first', 'err'); return; }
+  setStatus('reading schema from db...', 'active');
+  try {
+    const data = await api('/schema/db', dbConfig());
+    if (data.error) { log('schema', data.error, 'err'); setStatus('error', 'error'); return; }
+    applySchema(data);
+    log('schema', `loaded ${data.tableCount} tables from "${db}" via live connection`, 'ok');
+    setStatus('schema loaded', 'active');
+  } catch (err) {
+    log('schema', 'backend error: ' + err.message, 'err');
+    setStatus('error', 'error');
+  }
+  setTimeout(() => setStatus('idle'), 2000);
+}
+
+// ── Load schema from file ──────────────────────────────────────────────────
+
+async function loadSchemaFromFile() {
   const filePath = document.getElementById('schemaPath').value.trim();
   if (!filePath) return;
-  setStatus('loading schema...', 'active');
+  setStatus('loading schema file...', 'active');
   try {
-    const data = await api('/schema', { filePath });
+    const data = await api('/schema/file', { filePath });
     if (data.error) { log('schema', data.error, 'err'); setStatus('error', 'error'); return; }
-    schema = data.schema;
-    const preview = document.getElementById('schemaPreview');
-    preview.textContent = schema.slice(0, 800) + (schema.length > 800 ? '\n...' : '');
-    preview.classList.remove('empty');
+    applySchema({ ...data, tables: [] });
     log('schema', `loaded from ${data.path} (${schema.length} chars)`, 'ok');
     setStatus('schema loaded', 'active');
   } catch (err) {
-    log('schema', 'cannot reach backend: ' + err.message, 'err');
+    log('schema', 'backend error: ' + err.message, 'err');
     setStatus('error', 'error');
   }
   setTimeout(() => setStatus('idle'), 2000);
@@ -480,37 +446,66 @@ async function loadSchema() {
 
 async function testDB() {
   setStatus('testing connection...', 'active');
-  const data = await api('/db/test', dbConfig()).catch(e => ({ error: e.message }));
-  if (data.error) { log('mysql', data.error, 'err'); setStatus('error', 'error'); }
-  else { log('mysql', 'connection ok', 'ok'); setStatus('connected', 'active'); }
+  try {
+    const payload = {
+      host: document.getElementById('dbHost').value,
+      port: document.getElementById('dbPort').value,
+      user: document.getElementById('dbUser').value,
+      password: document.getElementById('dbPass').value
+    };
+    log('mysql', `trying ${payload.user}@${payload.host}:${payload.port}...`, 'info');
+
+    const res = await fetch(BACKEND + '/db/test', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    log('mysql', `backend replied: ${JSON.stringify(data)}`, 'info');
+
+    if (data.error || !data.databases) {
+      log('mysql', data.error || 'unexpected response — no databases field', 'err');
+      setStatus('error', 'error');
+    } else {
+      log('mysql', `connected — databases: ${data.databases.join(', ')}`, 'ok');
+
+      // populate datalist for autocomplete
+      const dl = document.getElementById('dbNameList');
+      dl.innerHTML = data.databases.map(d => `<option value="${d}">`).join('');
+
+      // auto-fill if only one user database exists
+      if (data.databases.length === 1) {
+        document.getElementById('dbNameInput').value = data.databases[0];
+      }
+
+      setStatus('connected', 'active');
+    }
+  } catch (err) {
+    log('mysql', 'cannot reach backend: ' + err.message, 'err');
+    setStatus('error', 'error');
+  }
   setTimeout(() => setStatus('idle'), 2000);
 }
 
-function dbConfig() {
-  return {
-    host: document.getElementById('dbHost').value,
-    port: parseInt(document.getElementById('dbPort').value) || 3306,
-    user: document.getElementById('dbUser').value,
-    password: document.getElementById('dbPass').value,
-    database: document.getElementById('dbName').value
-  };
-}
-
-// ── Models ────────────────────────────────────────────────────────────────
+// ── Ollama models ──────────────────────────────────────────────────────────
 
 async function loadModels() {
   const url = document.getElementById('ollamaUrl').value;
-  const data = await api(`/llm/models?url=${encodeURIComponent(url)}`).catch(() => ({ models: [] }));
-  if (data.models && data.models.length) {
-    const sel = document.getElementById('ollamaModel');
-    sel.innerHTML = data.models.map(m => `<option value="${m}">${m}</option>`).join('');
-    log('ollama', `found ${data.models.length} model(s): ${data.models.join(', ')}`, 'ok');
-  } else {
-    log('ollama', 'no models found or ollama unreachable', 'err');
+  try {
+    const data = await api(`/llm/models?url=${encodeURIComponent(url)}`);
+    if (data.models && data.models.length) {
+      const sel = document.getElementById('ollamaModel');
+      sel.innerHTML = data.models.map(m => `<option value="${m}">${m}</option>`).join('');
+      log('ollama', `${data.models.length} model(s): ${data.models.join(', ')}`, 'ok');
+    } else {
+      log('ollama', 'no models found — run: ollama pull qwen2.5-coder:7b', 'err');
+    }
+  } catch {
+    log('ollama', 'cannot reach backend', 'err');
   }
 }
 
-// ── LLM call ──────────────────────────────────────────────────────────────
+// ── LLM ───────────────────────────────────────────────────────────────────
 
 async function callLLM(messages, system) {
   const data = await api('/llm', {
@@ -526,9 +521,7 @@ async function callLLM(messages, system) {
 function extractSQL(text) {
   const m = text.match(/```sql\s*([\s\S]*?)```/i) || text.match(/```\s*([\s\S]*?)```/);
   if (m) return m[1].trim();
-  const lines = text.split('\n');
-  const sqlLines = lines.filter(l => /^\s*(SELECT|INSERT|UPDATE|DELETE|WITH|CALL)/i.test(l.trim()));
-  if (sqlLines.length) return text.trim();
+  if (/^\s*(SELECT|WITH|CALL)/i.test(text.trim())) return text.trim();
   return null;
 }
 
@@ -554,14 +547,10 @@ async function runAgent() {
   logDivider();
   log('you', nl, 'user');
 
-  const systemPrompt = `You are a MySQL expert. You receive a database schema and a natural language request.
-Output ONLY a single SQL query inside a \`\`\`sql code block — nothing else, no explanation, no preamble.
-Use only tables and columns that exist in the provided schema.
+  const systemPrompt = `You are a MySQL expert. Output ONLY a single SQL query inside a \`\`\`sql code block — nothing else, no explanation, no preamble.
+Use only tables and columns from the schema provided in the user message.
 If told the query had an error, output only the corrected SQL.
-If told the result looks wrong, fix the logic and output only the corrected SQL.
-
-Schema:
-${schema}`;
+If told the result looks wrong, fix the logic and output only the corrected SQL.`;
 
   conversationHistory = [];
   let lastSQL = null;
@@ -573,14 +562,14 @@ ${schema}`;
     setStatus(`generating sql (attempt ${attempt}/${MAX_RETRIES})...`, 'active');
 
     try {
-      // ── Build message ──
       let userMsg;
       if (attempt === 1) {
-        userMsg = `Natural language request: "${nl}"\nGenerate the MySQL query.`;
+        // always embed full schema in first message — local models ignore system prompts
+        userMsg = `Database schema:\n\`\`\`sql\n${schema}\n\`\`\`\n\nNatural language request: "${nl}"\n\nGenerate the MySQL query.`;
       } else if (lastError) {
-        userMsg = `The previous SQL failed with this error:\n${lastError}\n\nPrevious SQL:\n\`\`\`sql\n${lastSQL}\n\`\`\`\n\nFix it. Output only the corrected SQL.`;
+        userMsg = `The previous SQL failed with this error:\n${lastError}\n\nPrevious SQL:\n\`\`\`sql\n${lastSQL}\n\`\`\`\n\nRemember the schema above. Fix the SQL. Output only the corrected query.`;
       } else {
-        userMsg = `The query ran but the result may be incorrect for the request "${nl}".\nPrevious SQL:\n\`\`\`sql\n${lastSQL}\n\`\`\`\n\nReview and fix if needed. Output only the SQL.`;
+        userMsg = `The query ran but may be incorrect for: "${nl}".\nPrevious SQL:\n\`\`\`sql\n${lastSQL}\n\`\`\`\n\nRemember the schema above. Fix the logic. Output only the corrected SQL.`;
       }
 
       conversationHistory.push({ role: 'user', content: userMsg });
@@ -589,7 +578,7 @@ ${schema}`;
 
       const sql = extractSQL(reply);
       if (!sql) {
-        lastError = 'could not extract sql from llm response';
+        lastError = 'could not extract sql from model response';
         log('agent', lastError, 'err');
         continue;
       }
@@ -597,8 +586,8 @@ ${schema}`;
       lastSQL = sql;
       log(`sql (attempt ${attempt})`, sql, 'sql');
 
-      // ── Dry-run ──
-      setStatus('dry-running against mysql (begin/rollback)...', 'active');
+      // dry-run
+      setStatus('dry-running (begin/rollback)...', 'active');
       const dry = await api('/db/dryrun', { ...dbConfig(), sql });
 
       if (!dry.ok) {
@@ -608,17 +597,15 @@ ${schema}`;
         continue;
       }
 
-      log('dry-run', `passed — ${dry.rowCount} row(s) returned — transaction rolled back, nothing committed`, 'ok');
+      log('dry-run', `passed — ${dry.rowCount} row(s) — transaction rolled back, nothing committed`, 'ok');
       logHTML('result', renderTable(dry.columns, dry.rows));
 
-      // ── Self-verify ──
-      setStatus('verifying result logic...', 'active');
-      const verifyMsg = `The query ran successfully.
-Returned ${dry.rowCount} rows with columns: ${dry.columns.join(', ')}.
-Sample row: ${JSON.stringify(dry.rows[0] || {})}.
-
-Does this correctly answer the original request: "${nl}"?
-Reply with CORRECT or INCORRECT. If incorrect, explain the issue in one sentence.`;
+      // self-verify
+      setStatus('verifying result...', 'active');
+      const verifyMsg = `Query ran. ${dry.rowCount} rows, columns: ${dry.columns.join(', ')}.
+Sample: ${JSON.stringify(dry.rows[0] || {})}.
+Does this correctly answer: "${nl}"?
+Reply CORRECT or INCORRECT. If incorrect, one sentence why.`;
 
       conversationHistory.push({ role: 'user', content: verifyMsg });
       const verdict = await callLLM(conversationHistory, systemPrompt);
@@ -632,7 +619,7 @@ Reply with CORRECT or INCORRECT. If incorrect, explain the issue in one sentence
       } else {
         log('verify', verdict.trim(), 'retry');
         lastError = null;
-        if (attempt < MAX_RETRIES) log('agent', `rewriting query...`, 'retry');
+        if (attempt < MAX_RETRIES) log('agent', 'rewriting query...', 'retry');
       }
 
     } catch (err) {
@@ -644,8 +631,8 @@ Reply with CORRECT or INCORRECT. If incorrect, explain the issue in one sentence
   }
 
   if (attempt >= MAX_RETRIES) {
-    log('agent', `reached max retries (${MAX_RETRIES}). last sql is your best attempt.`, 'err');
-    setStatus('max retries reached', 'warn');
+    log('agent', `max retries (${MAX_RETRIES}) reached. last sql is your best attempt.`, 'err');
+    setStatus('max retries', 'warn');
     setTimeout(() => setStatus('idle'), 4000);
   }
 
@@ -655,6 +642,20 @@ Reply with CORRECT or INCORRECT. If incorrect, explain the issue in one sentence
 document.getElementById('nlInput').addEventListener('keydown', e => {
   if (e.key === 'Enter' && !document.getElementById('runBtn').disabled) runAgent();
 });
+
+// ── Init ───────────────────────────────────────────────────────────────────
+
+async function checkBackend() {
+  try {
+    const res = await fetch(BACKEND + '/llm/models');
+    if (res.ok) {
+      document.getElementById('backendBadge').textContent = 'backend: connected';
+      document.getElementById('backendBadge').classList.add('live');
+    }
+  } catch {
+    document.getElementById('backendBadge').textContent = 'backend: offline — run npm start';
+  }
+}
 
 checkBackend();
 loadModels();
