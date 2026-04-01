@@ -1,4 +1,4 @@
-# nl-sql-agent
+# mysql_query_agent
 
 Natural language → MySQL query agent.
 - Reads your schema from a local file
